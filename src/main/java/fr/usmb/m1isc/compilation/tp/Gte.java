@@ -1,8 +1,8 @@
 package fr.usmb.m1isc.compilation.tp;
 
-public class Gt extends Node {
-  public Gt(Node a, Node b) {
-    super("<");
+public class Gte extends Node {
+  public Gte(Node a, Node b) {
+    super("<=");
     left = a;
     right = b;
   }
@@ -14,7 +14,7 @@ public class Gt extends Node {
     prgm.compile(right);
     prgm.addCode("  pop ebx\n"    +
                  "  sub eax,ebx\n");
-    prgm.addCode("  jle"); //hack pas bo
+    prgm.addCode("  jl"); //hack pas bo
   }
 }
 

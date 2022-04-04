@@ -15,7 +15,7 @@ public class While extends Node {
     String label = "while_"+occurence;
     prgm.addCode("debut_"+label+":\n");
     prgm.compile(left);
-    prgm.addCode("  jle faux_cond_"+label+"\n"   +
+    prgm.addCode(" faux_cond_"+label+"\n"   + // hack pas bo
                  "  mov eax,1\n"            +
                  "  jmp sortie_cond_"+label+"\n" +
                  "faux_cond_"+label+":\n"        +

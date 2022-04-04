@@ -5,12 +5,10 @@
   - [x] exercice 2
 
 # TODO:
-  - [ ] implementer les noeuds restants:
-    - [ ] NIL
-    - [ ] negation
-    - [ ] GTE
-    - [ ] EQU
-    - [ ] AND
-    - [ ] OR
-    - [ ] NOT
-  - [ ] faire le rendu
+  - trouver la doc asm de la vm
+  - implementer les noeuds restants:
+    - EQU
+    - AND
+    - OR
+    - NOT
+  - faire le rendu
