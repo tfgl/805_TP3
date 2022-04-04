@@ -1,8 +1,8 @@
 package fr.usmb.m1isc.compilation.tp;
 
-public class Add extends Node {
-  public Add(Node a, Node b) {
-    super("+");
+public class Sub extends Node {
+  public Sub(Node a, Node b) {
+    super("-");
     left = a;
     right = b;
   }
@@ -13,9 +13,10 @@ public class Add extends Node {
     prgm.addCode("  push eax\n");
     prgm.compile(right);
     prgm.addCode("  pop ebx\n"    +
-                 "  add eax,ebx\n");
+                 "  sub eax,ebx\n");
   }
 }
+
 
 
 

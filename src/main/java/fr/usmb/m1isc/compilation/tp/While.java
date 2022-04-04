@@ -15,14 +15,16 @@ public class While extends Node {
     String label = "while_"+occurence;
     prgm.addCode("debut_"+label+":\n");
     prgm.compile(left);
-    prgm.addCode("  jle faux_"+label+"\n"   +
+    prgm.addCode("  jle faux_cond_"+label+"\n"   +
                  "  mov eax,1\n"            +
-                 "  jmp sortie_"+label+"\n" +
-                 "faux_"+label+":\n"        +
+                 "  jmp sortie_cond_"+label+"\n" +
+                 "faux_cond_"+label+":\n"        +
                  "  mov eax,0\n"            +
-                 "sortie_"+label+":\n"      +
-                 "jz sortie_"+label+"\n");
+                 "sortie_cond_"+label+":\n"      +
+                 "  jz sortie_"+label+"\n");
     prgm.compile(right);
+    prgm.addCode("  jmp debut_"+label+"\n" +
+                 "sortie_"+label+":\n");
   }
 }
 
