@@ -15,19 +15,18 @@ class Prgm {
 
   public String close() {
     String dataStr = "DATA SEGMENT\n";
-    for(String s: data) {
+
+    for(String s: data)
       dataStr += s;
-    }
-    dataStr += "DATA ENDS";
+
+    dataStr += "DATA ENDS\n\n";
     code += "CODE ENDS";
-    return dataStr + "\n" + code;
+    return dataStr + code;
   }
 
   public Prgm compile(Node tree) {
-    if(tree == null) return this;
-    tree.parse(this);
-    compile(tree.left);
-    compile(tree.right);
+    if(tree != null)
+      tree.parse(this);
     return this;
   }
 }

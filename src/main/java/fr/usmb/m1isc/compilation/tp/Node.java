@@ -48,5 +48,8 @@ public class Node {
     return this;
   }
 
-  public void parse(Prgm prgm) {}
+  public void parse(Prgm prgm) {
+    prgm.compile(left);
+    prgm.compile(right);
+  }
 }

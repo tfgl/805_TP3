@@ -20,5 +20,7 @@ public class If extends Node {
 
   @Override
   public void parse(Prgm prgm) {
+    prgm.compile(left);
+    prgm.compile(right);
   }
 }

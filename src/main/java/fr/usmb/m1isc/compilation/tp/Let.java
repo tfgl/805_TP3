@@ -9,8 +9,8 @@ public class Let extends Node {
 
   @Override
   public void parse(Prgm prgm) {
-    prgm.addData("  "+left.symbol + " DD");
-    prgm.addCode("  in eax\n");
+    prgm.addData("  "+left.symbol + " DD\n");
+    prgm.compile(right);
     prgm.addCode("  mov "+left.symbol+", eax\n");
   }
 }
