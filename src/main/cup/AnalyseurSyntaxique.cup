@@ -56,19 +56,19 @@ precedence left MOINS_UNAIRE;
 /* grammaire */
 // un pg est une sequence d'insctions terminee par point
 program ::= 
-    sequence:s {: System.out.println((Node)s); System.out.println(prgm.compile((Node)s).close()); :} POINT
+    sequence:s {: System.out.println(s); System.out.println(prgm.compile(s).close()); :} POINT
     ;
 
 // une sequence est une suite d'instructions separes par des point virgules 
-sequence ::= expression:e1 SEMI sequence:e2 {: RESULT = new Node(";").pushLeft((Node)e1).pushRight((Node)e2); :}
-            | expression:e   {: RESULT = (Node)e; :}
+sequence ::= expression:e1 SEMI sequence:e2 {: RESULT = new Node(";").pushLeft(e1).pushRight(e2); :}
+            | expression:e   {: RESULT = e; :}
             ;
 
 // une expession est soit une affectation ,une
-expression ::= expr:e {: RESULT = (Node)e; :}
+expression ::= expr:e {: RESULT = e; :}
              | LET IDENT:nom EGAL expr:e                          {: RESULT = new Let(nom, e); :}
              | WHILE expr:cond DO expression:e                    {: RESULT = new While(cond, e); :}
-             | IF expr:cond THEN expression:a1 ELSE expression:a2 {: Node tree = new If(cond, a1, a2); RESULT = tree; :}
+             | IF expr:cond THEN expression:a1 ELSE expression:a2 {: RESULT = new If(cond, a1, a2); :}
              | error // reprise d'erreurs
              ;
 

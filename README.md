@@ -1,5 +1,16 @@
 # INFO805 TP2
 
 # Avancement:
-  - [ ] exercice 1 - en cours
-  - [ ] exercice 2
+  - [x] exercice 1
+  - [x] exercice 2
+
+# TODO:
+  - [ ] implementer les noeuds restants:
+    - [ ] NIL
+    - [ ] negation
+    - [ ] GTE
+    - [ ] EQU
+    - [ ] AND
+    - [ ] OR
+    - [ ] NOT
+  - [ ] faire le rendu
