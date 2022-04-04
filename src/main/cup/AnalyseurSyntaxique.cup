@@ -3,6 +3,7 @@ package fr.usmb.m1isc.compilation.tp;
 import java_cup.runtime.Symbol;
 import java.util.HashMap;
 
+
 /* inclusion du code */
 
 action code {: 
@@ -11,7 +12,7 @@ action code {:
     private HashMap<String,Integer> vars = new HashMap<>();
     // gestion des erreurs d'evaluation
     private boolean erreur = false;
-    public static class Node {
+    public class Node {
       public String symbol;
       public Node left, right;
 
@@ -32,11 +33,9 @@ action code {:
       }
 
       public String toString() {
-        String res = "";
+        String res = symbol;
         if(left != null)
-          res += left.toString() + " ";
-
-        res += symbol;
+          res += " " + left.toString();
 
         if(right != null)
           res += " " + right.toString();
@@ -45,15 +44,27 @@ action code {:
         return res;
       }
 
+      Node pushRight(Node n) {
+        if(right != null) right.pushRight(n);
+        else right = n;
+        return this;
+      }
+
+      Node pushLeft(Node n) {
+        if(left != null) left.pushLeft(n);
+        else left = n;
+        return this;
+      }
+
       Node pushRight(String s) {
         if(right != null) right.pushRight(s);
-        right = new Node(s);
+        else right = new Node(s);
         return this;
       }
 
       Node pushLeft(String s) {
         if(left != null) left.pushLeft(s);
-        left = new Node(s);
+        else left = new Node(s);
         return this;
       }
     }
@@ -100,40 +111,50 @@ precedence left MOINS_UNAIRE;
 /* grammaire */
 // un pg est une sequence d'insctions terminee par point
 program ::= 
-    sequence:s POINT
+    sequence:s {: System.out.println((Node)s); :} POINT
     ;
 
 // une sequence est une suite d'instructions separes par des point virgules 
-sequence ::= expression:e1 SEMI sequence:e2
-            | expression:e   
-            |
+sequence ::= expression:e1 SEMI sequence:e2 {: RESULT = new Node(";").pushLeft((Node)e1).pushRight((Node)e2); :}
+            | expression:e   {: RESULT = (Node)e; :}
             ;
 
 // une expession est soit une affectation ,une
-expression ::= expr:e
-             | LET IDENT:nom EGAL expr:e {: Node tree = new Node(";"); tree.pushRight("let").right.pushRight(nom); RESULT = tree; System.out.println(RESULT); :} //.pushLeft(e);
-             | WHILE expr:cond DO expression:e
-             | IF expr:cond THEN expression:a1 ELSE expression:a2
+expression ::= expr:e {: RESULT = (Node)e; :}
+             | LET IDENT:nom EGAL expr:e {: RESULT = new Node("LET").pushLeft(nom).pushRight((Node)e); :}
+             | WHILE expr:cond DO expression:e {: RESULT = new Node("WHILE").pushLeft((Node)cond).pushRight((Node)e); :}
+             | IF expr:cond THEN expression:a1 ELSE expression:a2 {: Node tree = new Node("IF").pushLeft((Node)cond).pushRight("THEN"); tree.right.pushLeft((Node)a1).pushRight("ELSE").pushRight((Node)a2); RESULT = tree; :}
              | error // reprise d'erreurs
              ;
 
+// (; (LET a INPUT) (; (LET b INPUT) (; (WHILE (< 0 b) (; (LET aux (% a b)) (; (LET a b) (LET b aux)))) (OUTPUT a))))
+//
+//         ;
+//   let             ;
+// a input   LET                      ;
+//          b  input    WHILE              out
+//                    <               ;  a
+//                  0   b      let           ;
+//                          aux  MOD    let    let
+//                              a   b  a   b  b   aux
+
 // expression arithmetiques et logiques 
-expr ::= NOT:op expr:e            //{: RESULT = !e; :}
-       | expr:e1 AND expr:e2      //{: RESULT = e1 && e2; :}
-       | expr:e1 OR expr:e2       //{: RESULT = e1 || e2; :}
-       | expr:e1 EGAL expr:e2     {: RESULT = e1 == e2; :}
-       | expr:e1 GT expr:e2       {: RESULT = (Integer)e1 > (Integer)e2; :}
-       | expr:e1 GTE expr:e2      {: RESULT = (Integer)e1 >=(Integer)e2; :}
-       | expr:e1 PLUS expr:e2     {: RESULT = (Integer)e1 + (Integer)e2; :}
-       | expr:e1 MOINS expr:e2    {: RESULT = (Integer)e1 - (Integer)e2; :}
-       | expr:e1 MUL expr:e2      {: RESULT = (Integer)e1 * (Integer)e2; :}
-       | expr:e1 DIV expr:e2      {: RESULT = (Integer)e1 / (Integer)e2; :}
-       | expr:e1 MOD expr:e2      {: RESULT = (Integer)e1 % (Integer)e2; :}
-       | MOINS expr:e             {: RESULT = -(Integer)e; :}%prec MOINS_UNAIRE 
-       | OUTPUT expr:e            {: System.out.println(e); :}
-       | INPUT                    //{: RESULT = (new Scanner(System.in)).nextInt(); :}
-       | NIL                      //{: System.out.println(tree); :}
-       | ENTIER:n                 {: RESULT = n; :}
-       | IDENT:id
-       | PAR_G sequence:e PAR_D
+expr ::= NOT:op expr:e            {: RESULT = new Node("NOT").pushLeft((Node)e); :}
+       | expr:e1 AND expr:e2      {: RESULT = new Node("AND").pushLeft((Node)e1).pushRight((Node)e2); :}
+       | expr:e1 OR expr:e2       {: RESULT = new Node("OR").pushLeft((Node)e1).pushRight((Node)e2); :}
+       | expr:e1 EGAL expr:e2     {: RESULT = new Node("==").pushLeft((Node)e1).pushRight((Node)e2); :}
+       | expr:e1 GT expr:e2       {: RESULT = new Node("<").pushLeft((Node)e1).pushRight((Node)e2); :}
+       | expr:e1 GTE expr:e2      {: RESULT = new Node("<=").pushLeft((Node)e1).pushRight((Node)e2); :}
+       | expr:e1 PLUS expr:e2     {: RESULT = new Node("+").pushLeft((Node)e1).pushRight((Node)e2); :}
+       | expr:e1 MOINS expr:e2    {: RESULT = new Node("-").pushLeft((Node)e1).pushRight((Node)e2); :}
+       | expr:e1 MUL expr:e2      {: RESULT = new Node("*").pushLeft((Node)e1).pushRight((Node)e2); :}
+       | expr:e1 DIV expr:e2      {: RESULT = new Node("/").pushLeft((Node)e1).pushRight((Node)e2); :}
+       | expr:e1 MOD expr:e2      {: RESULT = new Node("%").pushLeft((Node)e1).pushRight((Node)e2); :}
+       | MOINS expr:e             {: RESULT = new Node("-").pushLeft((Node)e); :} %prec MOINS_UNAIRE 
+       | OUTPUT expr:e            {: RESULT = new Node("OUTPUT").pushLeft((Node)e); :}
+       | INPUT                    {: RESULT = new Node("INPUT"); :}
+       | NIL                      {: RESULT = new Node("NIL"); :}
+       | ENTIER:n                 {: RESULT = new Node(((Integer)n).toString()); :}
+       | IDENT:id                 {: RESULT = new Node((String)id); :}
+       | PAR_G sequence:e PAR_D   {: RESULT = (Node)e; :}
        ;
