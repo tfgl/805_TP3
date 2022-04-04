@@ -2,6 +2,7 @@
 package fr.usmb.m1isc.compilation.tp;
 import java_cup.runtime.Symbol;
 import java.util.HashMap;
+import java.util.ArrayList;
 
 
 /* inclusion du code */
@@ -13,19 +14,11 @@ action code {:
     // gestion des erreurs d'evaluation
     private boolean erreur = false;
     public class Node {
-      public String symbol;
-      public Node left, right;
-
-      public Node() {
-        this.symbol = null;
-        this.left = null;
-        this.right = null;
-      }
+      public String symbol = null;
+      public Node left = null, right = null;
 
       public Node(String symbol) {
         this.symbol = symbol;
-        this.left = null;
-        this.right = null;
       }
 
       public boolean isLeaf() {
@@ -66,6 +59,48 @@ action code {:
         if(left != null) left.pushLeft(s);
         else left = new Node(s);
         return this;
+      }
+
+      String toAsm() {
+        String prgm = "";
+        Node n = this;
+        while( n != null ) {
+          Instruction i = parse(n);
+          i.action(prgm);
+        }
+      }
+    }
+
+    class Prgm {
+      public String code = "CODE SEGMENT\n";
+      public ArrayList<String> data = new ArrayList<String>();
+      public Prgm() { }
+
+      public void addData(String d) {
+        if( !data.contains(d) ) data.add(d);
+      }
+      public void addCode(String c) { code += c +"\n"; }
+
+      public String close() {
+        String dataStr = "DATA SEGMENT\n";
+        for(String s: data) {
+          dataStr += s;
+        }
+        dataStr += "DATA ENDS";
+        code += "CODE ENDS";
+        return dataStr + "\n" + code;
+      }
+    }
+
+    interface Instruction {
+      public String action(Prgm prgm);
+    }
+
+    class Let extends Node {
+      public Let() { this.symbol = "LET"; }
+
+      public String parse(Prgm prgm) {
+        prgm.addData(left.symbol + " DD");
       }
     }
 :};
@@ -121,7 +156,7 @@ sequence ::= expression:e1 SEMI sequence:e2 {: RESULT = new Node(";").pushLeft((
 
 // une expession est soit une affectation ,une
 expression ::= expr:e {: RESULT = (Node)e; :}
-             | LET IDENT:nom EGAL expr:e {: RESULT = new Node("LET").pushLeft(nom).pushRight((Node)e); :}
+             | LET IDENT:nom EGAL expr:e {: RESULT = new Let().pushLeft(nom).pushRight((Node)e); :}
              | WHILE expr:cond DO expression:e {: RESULT = new Node("WHILE").pushLeft((Node)cond).pushRight((Node)e); :}
              | IF expr:cond THEN expression:a1 ELSE expression:a2 {: Node tree = new Node("IF").pushLeft((Node)cond).pushRight("THEN"); tree.right.pushLeft((Node)a1).pushRight("ELSE").pushRight((Node)a2); RESULT = tree; :}
              | error // reprise d'erreurs
