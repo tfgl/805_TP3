@@ -37,15 +37,11 @@ public class Node {
   }
 
   Node pushRight(String s) {
-    if(right != null) right.pushRight(s);
-    else right = new Node(s);
-    return this;
+    return pushRight(new Node(s));
   }
 
   Node pushLeft(String s) {
-    if(left != null) left.pushLeft(s);
-    else left = new Node(s);
-    return this;
+    return pushLeft(new Node(s));
   }
 
   public void parse(Prgm prgm) {
@@ -53,3 +49,4 @@ public class Node {
     prgm.compile(right);
   }
 }
+

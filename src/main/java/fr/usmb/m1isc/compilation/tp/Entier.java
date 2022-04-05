@@ -1,6 +1,5 @@
 package fr.usmb.m1isc.compilation.tp;
 
-
 public class Entier extends Node {
   public Entier(String id) {
     super(id);
@@ -11,3 +10,4 @@ public class Entier extends Node {
     prgm.addCode("  mov eax, "+symbol+"\n");
   }
 }
+

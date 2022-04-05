@@ -2,7 +2,7 @@ package fr.usmb.m1isc.compilation.tp;
 
 public class Mod extends Node {
   public Mod(Node a, Node b) {
-    super("<");
+    super("%");
     left = a;
     right = b;
   }
@@ -19,5 +19,4 @@ public class Mod extends Node {
                  "  sub eax,ecx\n");
   }
 }
-
 
