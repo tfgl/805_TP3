@@ -9,12 +9,12 @@ public class Div extends Node {
 
   @Override
   public void parse(Prgm prgm) {
-    prgm.compile(left);
-    prgm.addCode("  push eax\n");
-    prgm.compile(right);
-    prgm.addCode("  pop ebx\n"     +
-                 "  div ebx, eax\n" +
-                 "  mov eax, ebx\n");
+    prgm.compile(left)
+        .addCode("  push eax")
+        .compile(right)
+        .addCode("  pop ebx")
+        .addCode("  div ebx, eax")
+        .addCode("  mov eax, ebx");
   }
 }
 

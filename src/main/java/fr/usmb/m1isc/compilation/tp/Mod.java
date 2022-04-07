@@ -9,14 +9,14 @@ public class Mod extends Node {
 
   @Override
   public void parse(Prgm prgm) {
-    prgm.compile(right);
-    prgm.addCode("  push eax\n");
-    prgm.compile(left);
-    prgm.addCode("  pop ebx\n"    +
-                 "  mov ecx,eax\n" +
-                 "  div ecx,ebx\n" +
-                 "  mul ecx,ebx\n" +
-                 "  sub eax,ecx\n");
+    prgm.compile(right)
+        .addCode("  push eax")
+        .compile(left)
+        .addCode("  pop ebx")
+        .addCode("  mov ecx,eax")
+        .addCode("  div ecx,ebx")
+        .addCode("  mul ecx,ebx")
+        .addCode("  sub eax,ecx");
   }
 }
 

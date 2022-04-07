@@ -8,8 +8,8 @@ public class Output extends Node {
 
   @Override
   public void parse(Prgm prgm) {
-    prgm.compile(left);
-    prgm.addCode("  out eax\n");
+    prgm.compile(left)
+        .addCode("  out eax");
   }
 }
 

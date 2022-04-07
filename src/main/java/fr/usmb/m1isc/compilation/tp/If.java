@@ -2,41 +2,46 @@ package fr.usmb.m1isc.compilation.tp;
 
 public class If extends Node {
   private Node _condition;
-  private Node _si;
-  private Node _sinon;
+  private Node _then;
+  private Node _else;
   private static int occurence = 0;
 
   public If(Node condition, Node si, Node sinon) {
     super("IF");
     occurence++;
     _condition = condition;
-    _si = new Node("THEN");
-    _sinon = new Node("ELSE");
+    _then = new Node("THEN");
+    _else = new Node("ELSE");
 
     pushLeft(_condition);
-    pushRight(_si);
-    _si.pushLeft(si);
-    _si.pushRight(_sinon);
-    _sinon.pushLeft(sinon);
+    pushRight(_then);
+    _then.pushLeft(si);
+    _then.pushRight(_else);
+    _else.pushLeft(sinon);
   }
 
   @Override
   public void parse(Prgm prgm) {
     String label = "if_"+occurence;
+    prgm.addCode("  ;; IF")
+        .addCode(label+":");
     // CONDIDITION
-    prgm.compile(left);
-    prgm.addCode(" faux_cond_"+label+"\n"        +
-                 "  mov eax, 1\n"                +
-                 "  jmp sortie_cond_"+label+"\n" +
-                 "faux_cond_"+label+":\n"        +
-                 "  mov eax, 0\n"                +
-                 "sortie_cond_"+label+":\n"      +
-                  "  jz else_"+label+"\n");
+    prgm.compile(_condition)
+        .nextJmp("faux_cond_"+label)
+        .addCode("  mov eax, 1")
+        .addCode("  jmp sortie_cond_"+label)
+        .addCode("faux_cond_"+label+":")
+        .addCode("  mov eax, 0")
+        .addCode("sortie_cond_"+label+":")
+        .addCode("  jz else_"+label);
     // THEN
-    prgm.compile(right);
+    prgm.addCode("  ;; THEN")
+        .compile(_then);
     // ELSE
-    prgm.addCode("else_"+label+":\n");
-
+    prgm.addCode("  ;; ELSE")
+        .addCode("else_"+label+":")
+        .compile(_else)
+        .addCode("  ;; END");
   }
 }
 

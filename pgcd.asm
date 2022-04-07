@@ -9,6 +9,7 @@ CODE SEGMENT
   mov a, eax
   in eax
   mov b, eax
+  ;; WHILE
 debut_while_1:
   mov eax, 0
   push eax
@@ -22,6 +23,7 @@ faux_cond_while_1:
   mov eax,0
 sortie_cond_while_1:
   jz sortie_while_1
+  ;; DO
   mov eax, b
   push eax
   mov eax, a
@@ -37,7 +39,7 @@ sortie_cond_while_1:
   mov b, eax
   jmp debut_while_1
 sortie_while_1:
+  ;; DONE
   mov eax, a
   out eax
 CODE ENDS
-

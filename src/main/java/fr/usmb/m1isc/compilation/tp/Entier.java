@@ -7,7 +7,7 @@ public class Entier extends Node {
 
   @Override
   public void parse(Prgm prgm) {
-    prgm.addCode("  mov eax, "+symbol+"\n");
+    prgm.addCode("  mov eax, "+symbol);
   }
 }
 

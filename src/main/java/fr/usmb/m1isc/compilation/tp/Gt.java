@@ -9,12 +9,12 @@ public class Gt extends Node {
 
   @Override
   public void parse(Prgm prgm) {
-    prgm.compile(left);
-    prgm.addCode("  push eax\n");
-    prgm.compile(right);
-    prgm.addCode("  pop ebx\n"    +
-                 "  sub eax,ebx\n");
-    prgm.addCode("  jle"); //hack pas bo
+    prgm.compile(left)
+        .addCode("  push eax")
+        .compile(right)
+        .addCode("  pop ebx")
+        .addCode("  sub eax,ebx")
+        .jmp = "jle";
   }
 }
 

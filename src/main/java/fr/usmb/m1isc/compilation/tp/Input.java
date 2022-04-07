@@ -7,7 +7,7 @@ public class Input extends Node {
 
   @Override
   public void parse(Prgm prgm) {
-    prgm.addCode("  in eax\n");
+    prgm.addCode("  in eax");
   }
 }
 

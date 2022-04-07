@@ -8,8 +8,8 @@ public class Neg extends Node {
 
   @Override
   public void parse(Prgm prgm) {
-    prgm.compile(left);
-    prgm.addCode("  mul eax, -1\n");
+    prgm.compile(left)
+        .addCode("  mul eax, -1");
   }
 }
 
