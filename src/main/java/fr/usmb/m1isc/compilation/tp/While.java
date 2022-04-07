@@ -14,23 +14,19 @@ public class While extends Node {
   public void parse(Prgm prgm) {
     String label = "while_"+occurence;
     prgm.addCode("  ;; WHILE")
-        .addCode("debut_"+label+":")
+        .addCode("begin_"+label+":")
         // CONDITION
         .compile(left)
-        .nextJmp("faux_cond_"+label)
-        .addCode("  mov eax,1")
-        .addCode("  jmp sortie_cond_"+label)
-        .addCode("faux_cond_"+label+":")
-        .addCode("  mov eax,0")
-        .addCode("sortie_cond_"+label+":")
-        .addCode("  jz sortie_"+label)
+        .nextJmp("do_"+label)
+        .addCode("  jmp end_"+label)
+        .addCode("do_"+label+":")
         // DO
         .addCode("  ;; DO")
         .compile(right)
         // GOTO CONDITION
-        .addCode("  jmp debut_"+label)
+        .addCode("  jmp begin_"+label)
         // DONE
-        .addCode("sortie_"+label+":")
+        .addCode("end_"+label+":")
         .addCode("  ;; DONE");
   }
 }

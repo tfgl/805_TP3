@@ -17,23 +17,23 @@ action code {:
 
  
 parser code {:
-    // pour le parser (redefinition de la methode reportant les erreurs d'analyse)
-    public void report_error(String message, Object info) {
-        String m = "";
-        if (info instanceof java_cup.runtime.Symbol) {
-            Symbol s = ((Symbol) info);     
-            if (s != null && s.left >= 0 ) {
-                /* Ajoute le numero de ligne  et de colonne*/
-                m =  "Ligne " + (s.left+1) + ", Colonne " + (s.right+1) + " : ";
-            }
-        }
-        m = m + message;
-        System.err.println(m);
+  // pour le parser (redefinition de la methode reportant les erreurs d'analyse)
+  public void report_error(String message, Object info) {
+    String m = "";
+    if (info instanceof java_cup.runtime.Symbol) {
+      Symbol s = ((Symbol) info);     
+      if (s != null && s.left >= 0 ) {
+        /* Ajoute le numero de ligne  et de colonne*/
+        m =  "Ligne " + (s.left+1) + ", Colonne " + (s.right+1) + " : ";
+      }
     }
+    m = m + message;
+    System.err.println(m);
+  }
 :};
 
- init with {:
-    //    initialisation du parser
+init with {:
+  //    initialisation du parser
 :};
 
 /* symboles terminaux */
@@ -88,17 +88,17 @@ expr ::= NOT:op expr:e            {: RESULT = new Node("NOT").pushLeft(e); :}
        | expr:e1 AND expr:e2      {: RESULT = new Node("AND").pushLeft(e1).pushRight(e2); :}
        | expr:e1 OR expr:e2       {: RESULT = new Node("OR").pushLeft(e1).pushRight(e2); :}
        | expr:e1 EGAL expr:e2     {: RESULT = new Node("==").pushLeft(e1).pushRight(e2); :}
-       | expr:e1 GT expr:e2       {: RESULT = new Gt(e1, e2); :}
+       | expr:e1 GT expr:e2       {: RESULT = new Gt (e1, e2); :}
        | expr:e1 GTE expr:e2      {: RESULT = new Gte(e1, e2); :}
        | expr:e1 PLUS expr:e2     {: RESULT = new Add(e1, e2); :}
        | expr:e1 MOINS expr:e2    {: RESULT = new Sub(e1, e2); :}
        | expr:e1 MUL expr:e2      {: RESULT = new Mul(e1, e2); :}
        | expr:e1 DIV expr:e2      {: RESULT = new Div(e1, e2); :}
        | expr:e1 MOD expr:e2      {: RESULT = new Mod(e1, e2); :}
-       | MOINS expr:e             {: RESULT = new Neg(e); :} %prec MOINS_UNAIRE 
-       | OUTPUT expr:e            {: RESULT = new Output(e); :}
-       | INPUT                    {: RESULT = new Input(); :}
-       | NIL                      {: RESULT = new Nil(); :}
+       | MOINS expr:e             {: RESULT = new Neg(e);      :} %prec MOINS_UNAIRE 
+       | OUTPUT expr:e            {: RESULT = new Output(e);   :}
+       | INPUT                    {: RESULT = new Input();     :}
+       | NIL                      {: RESULT = new Nil();       :}
        | ENTIER:n                 {: RESULT = new Entier(n.toString()); :}
        | IDENT:id                 {: RESULT = new Ident(id); :}
        | PAR_G sequence:e PAR_D   {: RESULT = e; :}

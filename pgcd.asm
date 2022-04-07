@@ -10,19 +10,15 @@ CODE SEGMENT
   in eax
   mov b, eax
   ;; WHILE
-debut_while_1:
+begin_while_1:
   mov eax, 0
   push eax
   mov eax, b
   pop ebx
-  sub eax,ebx
-  jle faux_cond_while_1
-  mov eax,1
-  jmp sortie_cond_while_1
-faux_cond_while_1:
-  mov eax,0
-sortie_cond_while_1:
-  jz sortie_while_1
+  sub ebx,eax
+  jl do_while_1
+  jmp end_while_1
+do_while_1:
   ;; DO
   mov eax, b
   push eax
@@ -37,8 +33,8 @@ sortie_cond_while_1:
   mov a, eax
   mov eax, aux
   mov b, eax
-  jmp debut_while_1
-sortie_while_1:
+  jmp begin_while_1
+end_while_1:
   ;; DONE
   mov eax, a
   out eax

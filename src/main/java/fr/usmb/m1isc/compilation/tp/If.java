@@ -27,13 +27,9 @@ public class If extends Node {
         .addCode(label+":");
     // CONDIDITION
     prgm.compile(_condition)
-        .nextJmp("faux_cond_"+label)
-        .addCode("  mov eax, 1")
-        .addCode("  jmp sortie_cond_"+label)
-        .addCode("faux_cond_"+label+":")
-        .addCode("  mov eax, 0")
-        .addCode("sortie_cond_"+label+":")
-        .addCode("  jz else_"+label);
+        .nextJmp("then_"+label)
+        .addCode("  jmp else_"+label)
+        .addCode("then_"+label+":");
     // THEN
     prgm.addCode("  ;; THEN")
         .compile(_then);

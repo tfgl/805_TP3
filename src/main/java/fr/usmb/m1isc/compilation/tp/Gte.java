@@ -13,8 +13,8 @@ public class Gte extends Node {
         .addCode("  push eax")
         .compile(right)
         .addCode("  pop ebx")
-        .addCode("  sub eax,ebx")
-        .jmp = "jl";
+        .addCode("  sub ebx,eax")
+        .jmp = "jle";
   }
 }
 
