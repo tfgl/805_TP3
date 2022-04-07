@@ -4,26 +4,21 @@ DATA ENDS
 CODE SEGMENT
   ;; IF
 if_1:
-  mov eax, 5
+  mov eax, 0
   push eax
-  mov eax, 0
+  mov eax, 4
   pop ebx
-  sub eax,ebx
-  jle faux_cond_if_1
-  mov eax, 1
-  jmp sortie_cond_if_1
-faux_cond_if_1:
-  mov eax, 0
-sortie_cond_if_1:
-  jz else_if_1
+  sub ebx,eax
+  jl then_if_1
+  jmp else_if_1
+then_if_1:
   ;; THEN
-  mov eax, 0
-  out eax
-  mov eax, 5
+  mov eax, 1
   out eax
   ;; ELSE
 else_if_1:
-  mov eax, 5
+  mov eax, 0
   out eax
   ;; END
 CODE ENDS
+ODE ENDS

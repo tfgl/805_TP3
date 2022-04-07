@@ -8,7 +8,7 @@ public class Not extends Node {
 
   @Override
   public void parse(Prgm prgm) {
-    prgm.addCode("  NOT eax");
+    prgm.addCode("  ;; TODO NOT eax");
   }
 }
 

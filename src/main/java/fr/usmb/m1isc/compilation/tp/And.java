@@ -1,8 +1,8 @@
 package fr.usmb.m1isc.compilation.tp;
 
-public class Sub extends Node {
-  public Sub(Node a, Node b) {
-    super("-");
+public class And extends Node {
+  public And(Node a, Node b) {
+    super("AND");
     left = a;
     right = b;
   }
@@ -13,7 +13,10 @@ public class Sub extends Node {
         .addCode("  push eax")
         .compile(right)
         .addCode("  pop ebx")
-        .addCode("  sub ebx,eax");
+        .addCode("  ;; TODO and ebx,eax")
+        .jmp = "jmp";
   }
 }
+
+
 

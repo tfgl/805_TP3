@@ -37,7 +37,7 @@ init with {:
 :};
 
 /* symboles terminaux */
-terminal PLUS, MOINS, MOINS_UNAIRE, MUL, DIV, MOD, NOT, OR, AND, PAR_G, PAR_D, SEMI, POINT, LET, INPUT, OUTPUT, IF, THEN, ELSE, WHILE, DO, EGAL, GT, GTE, NIL, ERROR; 
+terminal PLUS, MOINS, MOINS_UNAIRE, MUL, DIV, MOD, NOT, OR, AND, PAR_G, PAR_D, SEMI, POINT, LET, INPUT, OUTPUT, IF, THEN, ELSE, WHILE, DO, EGAL, LT, LTE, GT, GTE, NIL, ERROR; 
 terminal Integer ENTIER;
 terminal String IDENT;
 /* non terminaux */
@@ -48,7 +48,7 @@ precedence right OR;
 precedence right AND;
 precedence right NOT;
 precedence nonassoc EGAL;
-precedence nonassoc GT, GTE;
+precedence nonassoc LT, LTE, GT, GTE;
 precedence left PLUS, MOINS;
 precedence left MUL, DIV, MOD;
 precedence left MOINS_UNAIRE;
@@ -72,22 +72,13 @@ expression ::= expr:e {: RESULT = e; :}
              | error // reprise d'erreurs
              ;
 
-// (; (LET a INPUT) (; (LET b INPUT) (; (WHILE (< 0 b) (; (LET aux (% a b)) (; (LET a b) (LET b aux)))) (OUTPUT a))))
-//
-//         ;
-//   let             ;
-// a input   LET                      ;
-//          b  input    WHILE              out
-//                    <               ;  a
-//                  0   b      let           ;
-//                          aux  MOD    let    let
-//                              a   b  a   b  b   aux
-
 // expression arithmetiques et logiques 
-expr ::= NOT:op expr:e            {: RESULT = new Node("NOT").pushLeft(e); :}
-       | expr:e1 AND expr:e2      {: RESULT = new Node("AND").pushLeft(e1).pushRight(e2); :}
-       | expr:e1 OR expr:e2       {: RESULT = new Node("OR").pushLeft(e1).pushRight(e2); :}
-       | expr:e1 EGAL expr:e2     {: RESULT = new Node("==").pushLeft(e1).pushRight(e2); :}
+expr ::= NOT:op expr:e            {: RESULT = new Not(e);      :}
+       | expr:e1 AND expr:e2      {: RESULT = new And(e1, e2); :}
+       | expr:e1 OR expr:e2       {: RESULT = new Or (e1, e2); :}
+       | expr:e1 EGAL expr:e2     {: RESULT = new Equ(e1, e2); :}
+       | expr:e1 LT expr:e2       {: RESULT = new Lt (e1, e2); :}
+       | expr:e1 LTE expr:e2      {: RESULT = new Lte(e1, e2); :}
        | expr:e1 GT expr:e2       {: RESULT = new Gt (e1, e2); :}
        | expr:e1 GTE expr:e2      {: RESULT = new Gte(e1, e2); :}
        | expr:e1 PLUS expr:e2     {: RESULT = new Add(e1, e2); :}

@@ -1,15 +1,15 @@
 package fr.usmb.m1isc.compilation.tp;
 
-public class Gt extends Sub {
-  public Gt(Node a, Node b) {
+public class Equ extends Sub {
+  public Equ(Node a, Node b) {
     super(a, b);
-    symbol = ">";
+    symbol = "==";
   }
 
   @Override
   public void parse(Prgm prgm) {
     super.parse(prgm);
-    prgm.jmp = "jg";
+    prgm.jmp = "je";
   }
 }
 
