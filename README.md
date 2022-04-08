@@ -79,7 +79,6 @@ CODE SEGMENT
   mov a, eax
   in eax
   mov b, eax
-  ;; WHILE
 begin_while_1:
   mov eax, 0
   push eax
@@ -89,7 +88,6 @@ begin_while_1:
   jl do_while_1
   jmp end_while_1
 do_while_1:
-  ;; DO
   mov eax, b
   push eax
   mov eax, a
@@ -105,7 +103,6 @@ do_while_1:
   mov b, eax
   jmp begin_while_1
 end_while_1:
-  ;; DONE
   mov eax, a
   out eax
 CODE ENDS

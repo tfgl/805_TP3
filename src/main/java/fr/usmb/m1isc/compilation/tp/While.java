@@ -13,21 +13,18 @@ public class While extends Node {
   @Override
   public void parse(Prgm prgm) {
     String label = "while_"+occurence;
-    prgm.addCode("  ;; WHILE")
-        .addCode("begin_"+label+":")
+    prgm.addCode("begin_"+label+":")
         // CONDITION
         .compile(left)
         .nextJmp("do_"+label)
         .addCode("  jmp end_"+label)
         .addCode("do_"+label+":")
         // DO
-        .addCode("  ;; DO")
         .compile(right)
         // GOTO CONDITION
         .addCode("  jmp begin_"+label)
         // DONE
-        .addCode("end_"+label+":")
-        .addCode("  ;; DONE");
+        .addCode("end_"+label+":");
   }
 }
 

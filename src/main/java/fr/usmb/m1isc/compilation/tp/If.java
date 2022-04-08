@@ -15,23 +15,19 @@ public class If extends Node {
   @Override
   public void parse(Prgm prgm) {
     String label = "if_"+occurence;
-    prgm.addCode("  ;; IF")
-        .addCode(label+":");
+    prgm.addCode(label+":");
     // CONDIDITION
     prgm.compile(_condition)
         .nextJmp("then_"+label)
         .addCode("  jmp else_"+label)
-        .addCode("then_"+label+":");
+        .addCode("then_"+label+":")
     // THEN
-    prgm.addCode("  ;; THEN")
         .compile(left)
-        .addCode("  jmp end_"+label);
+        .addCode("  jmp end_"+label)
     // ELSE
-    prgm.addCode("  ;; ELSE")
         .addCode("else_"+label+":")
         .compile(right)
-        .addCode("  end_"+label+":")
-        .addCode("  ;; END");
+        .addCode("  end_"+label+":");
   }
 
   @Override
