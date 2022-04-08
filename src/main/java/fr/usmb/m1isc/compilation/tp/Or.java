@@ -13,11 +13,13 @@ public class Or extends Node {
         .addCode("  push eax")
         .compile(right)
         .addCode("  pop ebx")
-        .addCode("  ;; TODO and ebx,eax")
-        .jmp = "jmp";
+        .addCode("  add ebx,eax")
+        .addCode("  sub eax,0")
+        .jmp = "jg";
   }
 }
 
-
-
-
+// 0 0 -> 0
+// 0 1 -> 1
+// 1 0 -> 1
+// 1 1 -> 2
