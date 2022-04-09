@@ -1,4 +1,4 @@
-# INFO805 TP2
+# INFO805 TP3/4
 
 # Avancement:
   - [x] exercice 1
