@@ -13,13 +13,13 @@ public class And extends Node {
         .addCode("  push eax")
         .compile(right)
         .addCode("  pop ebx")
-        .addCode("  add eax, ebx")
-        .addCode("  out eax")
+        .addCode("  mul eax, ebx")
+        .addCode("  sub eax, 0")
         .jmp = "jg";
   }
 }
 
 // 0 0 -> 0
-// 0 1 -> 1
-// 1 0 -> 1
-// 1 1 -> 2
+// 0 1 -> 0
+// 1 0 -> 0
+// 1 1 -> 1

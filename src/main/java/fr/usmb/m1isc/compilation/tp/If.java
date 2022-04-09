@@ -27,7 +27,7 @@ public class If extends Node {
     // ELSE
         .addCode("else_"+label+":")
         .compile(right)
-        .addCode("  end_"+label+":");
+        .addCode("end_"+label+":");
   }
 
   @Override

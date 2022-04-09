@@ -11,13 +11,19 @@ public class Not extends Node {
   @Override
   public void parse(Prgm prgm) {
     String label= "Not_"+occurence;
-    prgm.compile(left)
-        .addCode("  jz z_"+label)
-        .addCode("  mov eax, 0")
-        .addCode("  jmp end_"+label)
-        .addCode("z_"+label+":")
+
+    prgm.compile(left);
+    if( prgm.jmp == null ) {
+      prgm.addCode("  sub eax, 0")
+          .jmp = "jg";
+    }
+    prgm.nextJmp(label+"_z")
         .addCode("  mov eax, 1")
-        .addCode("end_"+label+":")
+        .addCode("  jmp "+label+"_end")
+        .addCode(label+"_z:")
+        .addCode("  mov eax, 0")
+        .addCode(label+"_end:")
+        .addCode("  sub eax, 0")
         .jmp = "jg";
   }
 }

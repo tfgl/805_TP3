@@ -13,8 +13,8 @@ public class Or extends Node {
         .addCode("  push eax")
         .compile(right)
         .addCode("  pop ebx")
-        .addCode("  add ebx,eax")
-        .addCode("  sub eax,0")
+        .addCode("  add eax, ebx")
+        .addCode("  sub eax, 0")
         .jmp = "jg";
   }
 }

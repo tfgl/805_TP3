@@ -1,3 +1,5 @@
+;; let a = 1; let b = 0; let c = ( a and (not b) ); output c.
+;; (; (LET a 1) (; (LET b 0) (; (LET c (AND a (Not b))) (OUTPUT c))))
 DATA SEGMENT
   a DD
   b DD
@@ -36,3 +38,4 @@ end_while_1:
   mov eax, a
   out eax
 CODE ENDS
+
