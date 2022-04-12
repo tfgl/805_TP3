@@ -1,5 +1,14 @@
 # INFO805 TP3/4
 
+# Utilisation
+compiler: `$ make build`
+
+executer: `$ make run`
+
+ecrire un programme, copier le resultat dans un fichier (ex: tmp.asm)
+
+executer le code assembleur: `java -jar vm-0.9.jar tmp.asm`
+
 # Avancement:
   - [x] exercice 1
   - [x] exercice 2
