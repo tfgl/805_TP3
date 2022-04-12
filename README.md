@@ -30,8 +30,12 @@ executer le code assembleur: `java -jar vm-0.9.jar tmp.asm`
     - [x] MUL
     - [x] DIV
     - [x] SUB
+    - [x] MOD
     - [x] NEG
-  - [x] I/O
+  - [x] INPUT / OUTPUT
+  - [x] LET
+  - [x] WHILE ... DO ...
+  - [x] IF ... THEN ... ELSE ...
 
 # Compte Rendu:
   Le but de ce programme est de générer du code assembleur à partir d'un programme écris dans un sous-ensemble du langage λ-ada.
