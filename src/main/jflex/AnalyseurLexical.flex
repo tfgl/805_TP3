@@ -36,6 +36,8 @@ nil         = "nil" | "NIL"
 not         = "not" | "NOT"
 and         = "and" | "AND"
 or          = "or" | "OR"
+true        = "true"  | "True"
+false       = "false" | "False"
 
 // un identifiant commence par une lettre suivit d'un charactere alphanumerique (lettre/chiffre/underscore)
 ident       = [:letter:]\w*
@@ -74,6 +76,8 @@ comment     = {comment1}|{comment2}
 ";"         { return new Symbol(sym.SEMI, yyline, yycolumn) ;}
 "."         { return new Symbol(sym.POINT, yyline, yycolumn) ;}
 {chiffre}+  { return new Symbol(sym.ENTIER, yyline, yycolumn, Integer.valueOf(yytext())) ;}
+{true}      { return new Symbol(sym.ENTIER, yyline, yycolumn, Integer.valueOf("1")) ;}
+{false}     { return new Symbol(sym.ENTIER, yyline, yycolumn, Integer.valueOf("0")) ;}
 {ident}     { return new Symbol(sym.IDENT, yyline, yycolumn, yytext()) ;}
 {comment}   { /*commentaire : pas d'action*/ }
 {espace}    { /*espace : pas d'action*/ }

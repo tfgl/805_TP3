@@ -91,6 +91,7 @@ expr ::= NOT:op expr:e            {: RESULT = new Not(e);      :}
        | INPUT                    {: RESULT = new Input();     :}
        | NIL                      {: RESULT = new Nil();       :}
        | ENTIER:n                 {: RESULT = new Entier(n.toString()); :}
-       | IDENT:id                 {: RESULT = new Ident(id); :}
+       | IDENT:id                 {: RESULT = new Ident(id);   :}
        | PAR_G sequence:e PAR_D   {: RESULT = e; :}
+       | ERROR:e                  {: System.out.println(e);    :}
        ;

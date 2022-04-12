@@ -24,10 +24,27 @@
     - [x] NEG
   - [x] I/O
 
+# Compte Rendu:
+  Le but de ce programme est de générer du code assembleur à partir d'un programme écris dans un sous-ensemble du langage λ-ada.
+  Pour y parvenir, nous utilisons jflex comme lexer, et cup comme parser pour générer un arbre syntaxique.
+
+  L'arbre syntaxique est implementé par la classe Node. Plusieurs sous classes en herites pour representer des morceaux de code (ex: class Sequence, If, Sub, Add etc)
+  Cette classe n'est jamais instancié directement, comme elle ne represente aucune instruction du langage λ-ada.
+  Chaque classe fille de Node implemente une methode `public void parse(Prgm prgm)` qui génère le code assembleur correspondant.
+
+  Le parametre prgm represente le programme, cette classe contient essentiellement deux attributs, code et data, qui represente respectivement les segments code et data.
+  Cette classe contient également une methode `Prgm compile(Node tree)` qui ne appel la methode parse de tree, puis retourne l'objet appelant.
+  Elle contient également un attributs jmp et une methode `Prgm nextJmp(String lbl)` qui permet de gerer plus simplement les sauts conditionels.
+
+  Apres avoir parser un code en λ-ada, le programme va parcourir l'arbre syntaxique généré. l'arbre est principalement binaire comme la classe Node possede deux successeurs.
+  La classe est la seule exception, comme une instruction if est toujours suivit des mot clef then et else, elle possede 3 attributs (une condion, un bloc en cas de success, et un en cas d'echec)
+  
+  Les valeurs booleans True et False peuvent etre affectées à des variables et traitées par des operations logiques. Elles sont traduites en assembleur par 1 et 0.
+
 
 # Résultats:
 ## exercice 1:
-### programe:
+### programme:
 ```
 let prixHt = 200;
 let prixTtc =  prixHt * 119 / 100 .
@@ -63,7 +80,7 @@ CODE ENDS
 ```
 
 ## exercice 2:
-### programe:
+### programme:
 ```
 let a = input;
 let b = input;
